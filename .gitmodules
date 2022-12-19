@@ -1,3 +1,6 @@
 [submodule "libxft-bgra"]
 	path = libxft-bgra
 	url = https://github.com/uditkarode/libxft-bgra
+[submodule "dboard"]
+	path = dboard
+	url = https://github.com/speediegq/dboard
