@@ -6,7 +6,7 @@ include config.mk
 SRC = drw.c dmenu.c stest.c util.c
 OBJ = $(SRC:.c=.o)
 
-all: options dmenu stest
+all: options libxft-bgra dmenu stest
 
 options:
 	@echo dmenu build options:
@@ -19,6 +19,11 @@ options:
 
 config.h:
 	cp config.def.h $@
+
+libxft-bgra:
+	cd libxft-bgra
+	sh autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man
+	sudo make install
 
 $(OBJ): arg.h config.h config.mk drw.h
 
@@ -42,11 +47,12 @@ dist: clean
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp -f dmenu dmenu_path dmenu_run stest $(DESTDIR)$(PREFIX)/bin
+	cp -f dmenu dmenu_path dmenu_run stest dboard/dboard $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/dmenu
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/dmenu_path
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/dmenu_run
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/stest
+	chmod 755 $(DESTDIR)$(PREFIX)/bin/dboard
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	sed "s/VERSION/$(VERSION)/g" < dmenu.1 > $(DESTDIR)$(MANPREFIX)/man1/dmenu.1
 	sed "s/VERSION/$(VERSION)/g" < stest.1 > $(DESTDIR)$(MANPREFIX)/man1/stest.1
